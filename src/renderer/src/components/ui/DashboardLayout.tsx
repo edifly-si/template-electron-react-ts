@@ -2,6 +2,7 @@ import { PropsWithChildren, useState } from 'react';
 import { Button, Layout, Menu } from 'antd';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { createUseStyles } from 'react-jss';
+import { Link, Outlet } from 'react-router-dom';
 
 interface IPropsTheme {
     backgroundSider: string;
@@ -94,7 +95,7 @@ type TPropsDashboardLayout = {
     configThemeLayout?: IPropsTheme
 }
 
-export default function DashboardLayout({ children, configThemeLayout }: PropsWithChildren<TPropsDashboardLayout>) {
+export default function DashboardLayout({ configThemeLayout }: PropsWithChildren<TPropsDashboardLayout>) {
     const [collapsed, setCollapsed] = useState(false);
     const classes = useStyles(configThemeLayout ? configThemeLayout : defaultThemeLayout)
     return (
@@ -109,17 +110,13 @@ export default function DashboardLayout({ children, configThemeLayout }: PropsWi
                         {
                             key: '1',
                             // icon: <UserOutlined />,
-                            label: 'nav 1',
+                            label: <Link to="home">Home</Link>,
                         },
                         {
                             key: '2',
                             // icon: <VideoCameraOutlined />,
-                            label: 'nav 2',
-                        },
-                        {
-                            key: '3',
-                            // icon: <UploadOutlined />,
-                            label: 'nav 3',
+                            label: <Link to="about">About</Link>,
+
                         },
                     ]}
                 />
@@ -136,7 +133,7 @@ export default function DashboardLayout({ children, configThemeLayout }: PropsWi
                 <Content
                     className='tw-m-6 tw-bg-slate-300'
                 >
-                    {children}
+                    <Outlet />
                 </Content>
             </Layout>
         </Layout>

@@ -3,11 +3,15 @@ import { useAppDispatch } from "@renderer/redux/hook"
 import { ReactNode, useEffect } from "react"
 import { Route, Routes, RouteObject, Navigate } from "react-router-dom"
 
+type TRouterPages = RouteObject & {
+    middleware?: () => boolean
+}
+
 type PropsAppTemplate = {
     appName: string,
     rootElement: ReactNode
     isAuthenticated?: boolean,
-    routerPages: RouteObject[],
+    routerPages: TRouterPages[],
     defaultRedirectRoute?: string,
     elementAuth: ReactNode
 }
@@ -17,13 +21,13 @@ type PropsUserPage = PropsAppTemplate
 const UserPage = ({ rootElement, isAuthenticated, routerPages, defaultRedirectRoute, elementAuth }: PropsUserPage) => {
     return (
         <Routes>
-            <Route path="/*" element={!isAuthenticated ? <Navigate to="login" /> : <Navigate to={defaultRedirectRoute || "/"} />} />
-            {!isAuthenticated ? <Route path="/login" element={elementAuth} /> : <Route path="/*" element={rootElement} >
-                <Route index path={defaultRedirectRoute} />
-                {routerPages.map((routeProps, idx) => (
-                    <Route key={idx} path={routeProps.path} element={routeProps.element} />
-                ))}
-            </Route>}
+            <Route path="*" element={!isAuthenticated ? <Navigate to="login" /> : <Navigate to={defaultRedirectRoute || "/"} />} />
+            {!isAuthenticated ? <Route path="login" element={elementAuth} /> :
+                <Route path="*" element={rootElement} >
+                    {routerPages.map((routeProps, idx) => routeProps.middleware && routeProps.middleware() && (
+                        <Route key={idx} path={routeProps.path} element={routeProps.element} />
+                    ))}
+                </Route>}
         </Routes>
     )
 }
