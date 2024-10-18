@@ -20,7 +20,7 @@ function App(): JSX.Element {
 
   return (
     <>
-      <p>Electron</p>
+      <p>IPAXS</p>
       <Button type="primary">Button</Button>
       {/* <img alt="logo" className="logo" src={electronLogo} />
       <div className="creator">Powered by electron-vite</div>

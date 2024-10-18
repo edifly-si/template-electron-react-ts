@@ -24,8 +24,8 @@ const UserPage = ({ rootElement, isAuthenticated, routerPages, defaultRedirectRo
             <Route path="*" element={!isAuthenticated ? <Navigate to="login" /> : <Navigate to={defaultRedirectRoute || "/"} />} />
             {!isAuthenticated ? <Route path="login" element={elementAuth} /> :
                 <Route path="*" element={rootElement} >
-                    {routerPages.map((routeProps, idx) => routeProps.middleware && routeProps.middleware() && (
-                        <Route key={idx} path={routeProps.path} element={routeProps.element} />
+                    {routerPages.map((routeProps, idx) => (
+                        <Route key={idx} path={routeProps.path} element={routeProps.element}/>
                     ))}
                 </Route>}
         </Routes>
