@@ -1,5 +1,4 @@
-import { Card, Typography } from "antd"
-import React from "react"
+import { Typography } from "antd"
 import PassengerCard from "../../PassengerCard"
 import TopNavBar from "../../TopNavBar"
 
